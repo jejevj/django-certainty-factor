@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, material pro admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, material design, material dashboard bootstrap 5 dashboard template" />
+    <meta name="description" content="MaterialPro is powerful and clean admin dashboard template, inpired from Google's Material Design" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>MaterialPro Admin Template by WrapPixel</title>
+    {% load static %}
+    <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'admin/assets/images/favicon.png'%}" />
+    <!-- Custom CSS -->
+    <link href="{% static 'admin/dist/css/style.min.css'%}" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="main-wrapper">
+      <!-- -------------------------------------------------------------- -->
+      <!-- Login box.scss -->
+      <!-- -------------------------------------------------------------- -->
+      <div class="row auth-wrapper gx-0">
+        <div class="col-lg-3 bg-info auth-box-2 on-sidebar">
+          <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="row justify-content-center text-center">
+              <div class="col-md-7 col-lg-12 col-xl-9">
+                <h2 class="text-white mt-4 fw-light">Certainty Login</h2>
+                <p class="op-5 text-white fs-4 mt-4">Silakan login untuk masuk ke dashboard diagnosa depresi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9 d-flex align-items-center justify-content-center">
+          <div class="row justify-content-center w-100 mt-4 mt-lg-0">
+            <div class="col-lg-4 col-md-6">
+              <div class="card" id="loginform">
+                <div class="card-body">
+                  <h2>Welcome to Certtainty Factor</h2>
+                  {% if error_message %}
+                  <div class="alert alert-danger mt-3">{{ error_message }}</div>
+                  {% endif %}
+                  <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control form-input-bg" name="username" id="username" placeholder="username" />
+                      <label for="username">username</label>
+                      <div class="invalid-feedback">Username is required</div>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                      <input type="password" class="form-control form-input-bg" name="password" id="password" placeholder="*****" />
+                      <label for="password">Password</label>
+                      <div class="invalid-feedback">Password is required</div>
+                    </div>
+
+                    <div class="d-flex align-items-stretch button-group mt-4 pt-2">
+                      <button type="submit" class="btn btn-info btn-lg px-4">Sign in</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- -------------------------------------------------------------- -->
+      <!-- Login box.scss -->
+      <!-- -------------------------------------------------------------- -->
+    </div>
+    <!-- -------------------------------------------------------------- -->
+    <!-- All Required js -->
+    <!-- -------------------------------------------------------------- -->
+    <script src="{% static 'admin/dist/libs/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static 'admin/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>

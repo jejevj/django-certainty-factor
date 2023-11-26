@@ -1,0 +1,93 @@
+{% extends "nav_dashboard.html" %} {% load static %} {% block cssblock %}
+
+<!-- This page plugin CSS -->
+<link rel="stylesheet" href="{% static 'admin/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css' %}" />
+{% endblock cssblock %} {% block content %}
+
+<div class="container-fluid">
+  <!-- basic table -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="border-bottom title-part-padding">
+          <h4 class="card-title mb-0">Daftar Admin</h4>
+          <a class="btn btn-primary mt-2">
+            <span><i class="mdi mdi-plus me-2"></i>Tambah Data</span>
+          </a>
+        </div>
+        <div class="card-body">
+          <h6 class="card-subtitle mb-3"></h6>
+          <div class="table-responsive">
+            <table id="zero_config" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Tanggal</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>12-20-12</td>
+                  <td>
+                    <a class="btn btn-sm btn-warning mt-2">
+                      <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
+                    </a>
+                    <a class="btn btn-sm btn-danger mt-2">
+                      <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
+                    </a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Caesar Vance</td>
+                  <td>Pre-Sales Support</td>
+                  <td>20-12-20</td>
+                  <td>
+                    <a class="btn btn-sm btn-warning mt-2">
+                      <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
+                    </a>
+                    <a class="btn btn-sm btn-danger mt-2">
+                      <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Doris Wilder</td>
+                  <td>Sales Assistant</td>
+                  <td>2-12-20</td>
+                  <td>
+                    <a class="btn btn-sm btn-warning mt-2">
+                      <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
+                    </a>
+                    <a class="btn btn-sm btn-danger mt-2">
+                      <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Tanggal</th>
+                  <th>Aksi</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %} {% block jsblock %}
+
+<!--This page plugins -->
+<script src="{% static 'admin/dist/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'admin/dist/js/pages/datatable/datatable-basic.init.js' %}"></script>
+{% endblock jsblock %}
