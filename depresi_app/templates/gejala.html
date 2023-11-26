@@ -11,7 +11,7 @@
       <div class="card">
         <div class="border-bottom title-part-padding">
           <h4 class="card-title mb-0">Gejala Dari Pakar</h4>
-          <a class="btn btn-primary mt-2">
+          <a class="btn btn-primary mt-2" href="{% url 'tambah_gejala' %}">
             <span><i class="mdi mdi-plus me-2"></i>Tambah Data</span>
           </a>
         </div>
@@ -21,54 +21,43 @@
             <table id="zero_config" class="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th>Keterangan</th>
-                  <th>Nilai</th>
+                  <th>Kode</th>
+                  <th>Keterangan Gejala</th>
+                  <th>P1</th>
+                  <th>P2</th>
+                  <th>P3</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
+                {% for gejala in gejala_list %}
                 <tr>
-                  <td>Merasa Sedih</td>
+                  <td>{{gejala.kode_gejala}}</td>
+                  <td>{{gejala.keterangan_gejala}}</td>
+                  <td>{{gejala.p1}}</td>
+                  <td>{{gejala.p2}}</td>
+                  <td>{{gejala.p3}}</td>
+                  {% comment %}
                   <td>0.6</td>
+                  {% endcomment %}
                   <td>
-                    <a class="btn btn-sm btn-warning mt-2">
+                    <a href="{% url 'edit_gejala' gejala.id %}" class="btn btn-sm btn-warning">
                       <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
                     </a>
-                    <a class="btn btn-sm btn-danger mt-2">
+                    <a href="{% url 'hapus_gejala' gejala.id %}" class="mx-2 btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus gejala ini?')">
                       <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
                     </a>
                   </td>
                 </tr>
-
-                <tr>
-                  <td>Marah</td>
-                  <td>0.5</td>
-                  <td>
-                    <a class="btn btn-sm btn-warning mt-2">
-                      <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
-                    </a>
-                    <a class="btn btn-sm btn-danger mt-2">
-                      <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Biasa Saja</td>
-                  <td>0.4</td>
-                  <td>
-                    <a class="btn btn-sm btn-warning mt-2">
-                      <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
-                    </a>
-                    <a class="btn btn-sm btn-danger mt-2">
-                      <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
-                    </a>
-                  </td>
-                </tr>
+                {% endfor %}
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Keterangan</th>
-                  <th>Nilai</th>
+                  <th>Kode</th>
+                  <th>Keterangan Gejala</th>
+                  <th>P1</th>
+                  <th>P2</th>
+                  <th>P3</th>
                   <th>Aksi</th>
                 </tr>
               </tfoot>

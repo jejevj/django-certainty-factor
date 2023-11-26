@@ -12,4 +12,8 @@ urlpatterns = [
     path("user-history/", userhHistory, name="userhistory"),
     path("solusi/", solusi, name="solusi"),
     path("gejala/", gejala, name="gejala"),
+    # Gejala
+    path("tambah_gejala/", tambah_gejala, name="tambah_gejala"),
+    path("edit_gejala/<int:gejala_id>/", edit_gejala, name="edit_gejala"),
+    path("hapus_gejala/<int:gejala_id>/", hapus_gejala, name="hapus_gejala"),
 ]

@@ -1,0 +1,37 @@
+<!-- di templates/nama_aplikasi/tambah_gejala.html -->
+
+{% extends 'nav_dashboard.html' %} {% block content %}
+<div class="container mt-4">
+  <h2>{% if is_edit %}Edit{% else %}Tambah{% endif %} Gejala</h2>
+  <form method="post" action="{% if is_edit %}{% url 'edit_gejala' gejala.id %}{% else %}{% url 'tambah_gejala' %}{% endif %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="kode_gejala">Kode Gejala:</label>
+      <input type="text" id="kode_gejala" name="kode_gejala" value="{{ gejala.kode_gejala }}" {% if is_edit %}readonly{% endif %} required />
+    </div>
+
+    <div class="mb-3">
+      <label for="keterangan_gejala">Keterangan Gejala:</label>
+      <textarea id="keterangan_gejala" name="keterangan_gejala" {% if is_edit %}readonly{% endif %} required>{{ gejala.keterangan_gejala }}</textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="p1">P1:</label>
+      <input type="text" id="p1" name="p1" value="{{ gejala.p1 }}" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="p2">P2:</label>
+      <input type="text" id="p2" name="p2" value="{{ gejala.p2 }}" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="p3">P3:</label>
+      <input type="text" id="p3" name="p3" value="{{ gejala.p3 }}" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">{% if is_edit %}Simpan Perubahan{% else %}Tambah{% endif %}</button>
+  </form>
+</div>
+{% endblock %}
