@@ -12,8 +12,12 @@ urlpatterns = [
     path("user-history/", userhHistory, name="userhistory"),
     path("solusi/", solusi, name="solusi"),
     path("gejala/", gejala, name="gejala"),
-    # Gejala
+    # Gejala Action
     path("tambah_gejala/", tambah_gejala, name="tambah_gejala"),
     path("edit_gejala/<int:gejala_id>/", edit_gejala, name="edit_gejala"),
     path("hapus_gejala/<int:gejala_id>/", hapus_gejala, name="hapus_gejala"),
+    # Keterangan Action
+    path("tambah_ket/", tambah_ket, name="tambah_ket"),
+    path("edit_ket/<int:kode_keterangan>/", edit_ket, name="edit_ket"),
+    path("hapus_ket/<int:kode_keterangan>/", hapus_ket, name="hapus_ket"),
 ]

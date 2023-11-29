@@ -40,10 +40,6 @@ def dahsboard(request):
     return render(request, "dashboard.html", {"user": request.user})
 
 
-def ketPakar(request):
-    return render(request, "ket_pakar.html", {"user": request.user})
-
-
 def daftarAdmin(request):
     return render(request, "admin.html", {"user": request.user})
 
@@ -54,6 +50,12 @@ def userhHistory(request):
 
 def solusi(request):
     return render(request, "solusi.html", {"user": request.user})
+
+
+"""
+GEJALA VIEWS
+gejala views ini untuk membuat views bagian gejala
+"""
 
 
 def gejala(request):
@@ -130,3 +132,70 @@ def hapus_gejala(request, gejala_id):
 
 
 # Create your views here.
+
+
+"""
+GEJALA VIEWS
+gejala views ini untuk membuat views bagian gejala
+"""
+
+
+def ketPakar(request):
+    # Keterangan.objects.all().delete()
+    ket_list = Keterangan.objects.all()
+    return render(
+        request, "ket_pakar.html", {"user": request.user, "ket_list": ket_list}
+    )
+
+
+def tambah_ket(request):
+    if request.method == "POST":
+        keterangan = request.POST.get("keterangan")
+        cf = request.POST.get("cf")
+
+        # Lakukan sesuatu dengan data yang diterima, seperti menyimpan ke database
+        ket = Keterangan(
+            keterangan=keterangan,
+            cf=cf,
+        )
+        ket.save()
+
+        return redirect("ket_pakar")  # ganti 'nama_view' dengan view yang sesuai
+
+    return render(request, "form_ket.html", {"is_edit": False})
+
+
+def edit_ket(request, kode_keterangan):
+    ket = get_object_or_404(Keterangan, kode_keterangan=kode_keterangan)
+
+    if request.method == "POST":
+        keterangan = request.POST.get("keterangan")
+        cf = request.POST.get("cf")
+
+        # Lakukan validasi data sesuai kebutuhan aplikasi
+        if not keterangan or not cf:
+            # Handle kesalahan, misalnya kirim pesan kesalahan ke pengguna
+            return render(
+                request,
+                "form_ket.html",
+                {
+                    "is_edit": True,
+                    "keterangan": ket,
+                    "error_message": "Semua bidang harus diisi.",
+                },
+            )
+
+        # Lakukan sesuatu dengan data yang diterima, seperti menyimpan ke database
+        ket.keterangan = keterangan
+        ket.cf = cf
+        ket.save()
+
+        return redirect("ket_pakar")  # Ganti 'nama_view' dengan view yang sesuai
+
+    return render(request, "form_ket.html", {"is_edit": True, "keterangan": ket})
+
+
+def hapus_ket(request, kode_keterangan):
+    ket = get_object_or_404(Keterangan, kode_keterangan=kode_keterangan)
+    ket.delete()
+    return redirect("ket_pakar")

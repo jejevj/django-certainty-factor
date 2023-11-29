@@ -11,7 +11,7 @@
       <div class="card">
         <div class="border-bottom title-part-padding">
           <h4 class="card-title mb-0">Keterangan Pakar</h4>
-          <a class="btn btn-primary mt-2">
+          <a class="btn btn-primary mt-2" href="{% url 'tambah_ket' %}">
             <span><i class="mdi mdi-plus me-2"></i>Tambah Data</span>
           </a>
         </div>
@@ -27,43 +27,20 @@
                 </tr>
               </thead>
               <tbody>
+                {% for ket in ket_list %}
                 <tr>
-                  <td>Tiger Nixon</td>
-                  <td>System Architect</td>
+                  <td>{{ket.keterangan}}</td>
+                  <td>{{ket.cf}}</td>
                   <td>
-                    <a class="btn btn-sm btn-warning mt-2">
+                    <a href="{% url 'edit_ket' ket.kode_keterangan %}" class="btn btn-sm btn-warning">
                       <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
                     </a>
-                    <a class="btn btn-sm btn-danger mt-2">
+                    <a href="{% url 'hapus_ket' ket.kode_keterangan %}" class="mx-2 btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus gejala ini?')">
                       <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
                     </a>
                   </td>
                 </tr>
-
-                <tr>
-                  <td>Caesar Vance</td>
-                  <td>Pre-Sales Support</td>
-                  <td>
-                    <a class="btn btn-sm btn-warning mt-2">
-                      <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
-                    </a>
-                    <a class="btn btn-sm btn-danger mt-2">
-                      <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Doris Wilder</td>
-                  <td>Sales Assistant</td>
-                  <td>
-                    <a class="btn btn-sm btn-warning mt-2">
-                      <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
-                    </a>
-                    <a class="btn btn-sm btn-danger mt-2">
-                      <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
-                    </a>
-                  </td>
-                </tr>
+                {% endfor %}
               </tbody>
               <tfoot>
                 <tr>
