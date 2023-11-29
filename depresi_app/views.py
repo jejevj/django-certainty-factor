@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import *
 
@@ -38,10 +39,6 @@ def custom_logout(request):
 # INI UNTUK DASHBOARD
 def dahsboard(request):
     return render(request, "dashboard.html", {"user": request.user})
-
-
-def daftarAdmin(request):
-    return render(request, "admin.html", {"user": request.user})
 
 
 def userhHistory(request):
@@ -135,8 +132,8 @@ def hapus_gejala(request, gejala_id):
 
 
 """
-GEJALA VIEWS
-gejala views ini untuk membuat views bagian gejala
+Keterangan VIEWS
+keterangan views ini untuk membuat views bagian keterangan
 """
 
 
@@ -199,3 +196,75 @@ def hapus_ket(request, kode_keterangan):
     ket = get_object_or_404(Keterangan, kode_keterangan=kode_keterangan)
     ket.delete()
     return redirect("ket_pakar")
+
+
+"""
+User Admin
+User Admin views ini untuk membuat views bagian Admin
+"""
+
+
+def daftarAdmin(request):
+    usrAdmin = User.objects.all()
+    return render(request, "admin.html", {"user": request.user, "listAdmin": usrAdmin})
+
+
+def tambah_admin(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        # Cek apakah user dengan username tersebut sudah ada
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username sudah digunakan. Pilih username lain.")
+            return redirect("tambah_admin")
+
+        # Buat superuser
+        user = User.objects.create_user(username, email, password)
+        user.is_staff = True  # Tandai user sebagai staff/admin
+        user.is_superuser = False  # Tandai user sebagai superuser
+        user.save()
+
+        messages.success(request, "Admin berhasil ditambahkan.")
+        return redirect("listadmin")  # Ganti 'home' dengan nama url halaman utama Anda
+
+    return render(request, "form_admin.html")
+
+
+def edit_admin(request, admin_id):
+    admin = get_object_or_404(User, id=admin_id)
+
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        # Lakukan validasi data sesuai kebutuhan aplikasi
+        if not username or not email or not password:
+            # Handle kesalahan, misalnya kirim pesan kesalahan ke pengguna
+            return render(
+                request,
+                "form_admin.html",
+                {
+                    "is_edit": True,
+                    "admin": admin,
+                    "error_message": "Semua bidang harus diisi.",
+                },
+            )
+
+        # Lakukan sesuatu dengan data yang diterima, seperti menyimpan ke database
+        admin.username = username
+        admin.email = email
+        admin.password = password
+        admin.save()
+
+        return redirect("listadmin")  # Ganti 'nama_view' dengan view yang sesuai
+
+    return render(request, "form_admin.html", {"is_edit": True, "admin": admin})
+
+
+def hapus_admin(request, admin_id):
+    admin = get_object_or_404(User, id=admin_id)
+    admin.delete()
+    return redirect("listadmin")

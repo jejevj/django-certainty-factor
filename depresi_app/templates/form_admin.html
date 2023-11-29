@@ -1,0 +1,27 @@
+<!-- di templates/nama_aplikasi/tambah_gejala.html -->
+
+{% extends 'nav_dashboard.html' %} {% block content %}
+<div class="container mt-4">
+  <h2>{% if is_edit %}Edit{% else %}Tambah{% endif %} Gejala</h2>
+  <form method="post" action="{% if is_edit %}{% url 'edit_admin' admin.id %}{% else %}{% url 'tambah_admin' %}{% endif %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" value="{{ admin.username }}" {% if is_edit %}readonly{% endif %} required />
+    </div>
+
+    <div class="mb-3">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" value="{{ admin.email }}" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="password">password:</label>
+      <input type="password" id="password" name="password" value="{{ admin.password }}" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">{% if is_edit %}Simpan Perubahan{% else %}Tambah{% endif %}</button>
+  </form>
+</div>
+{% endblock %}

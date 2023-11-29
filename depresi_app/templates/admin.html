@@ -11,7 +11,7 @@
       <div class="card">
         <div class="border-bottom title-part-padding">
           <h4 class="card-title mb-0">Daftar Admin</h4>
-          <a class="btn btn-primary mt-2">
+          <a class="btn btn-primary mt-2" href="{% url "tambah_admin" %}">
             <span><i class="mdi mdi-plus me-2"></i>Tambah Data</span>
           </a>
         </div>
@@ -23,58 +23,43 @@
                 <tr>
                   <th>Username</th>
                   <th>Email</th>
-                  <th>Tanggal</th>
+                  <th>Terakhir Login</th>
+                  {% if request.user.is_superuser %}
                   <th>Aksi</th>
+                  {% endif %}
                 </tr>
               </thead>
               <tbody>
+                {% for admin in listAdmin %}
                 <tr>
-                  <td>Tiger Nixon</td>
-                  <td>System Architect</td>
-                  <td>12-20-12</td>
+                  <td>{{admin.username}}</td>
+                  <td>{{admin.email}}</td>
+                  <td>{{admin.last_login}}</td>
+                  {% if request.user.is_superuser %}
                   <td>
-                    <a class="btn btn-sm btn-warning mt-2">
+                    <a href="{% url 'edit_admin' admin.id %}" class="btn btn-sm btn-warning">
                       <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
                     </a>
-                    <a class="btn btn-sm btn-danger mt-2">
-                      <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
-                    </a>
+                    {% if admin.username != request.user.username %}
+                      <!-- Tampilkan tombol hapus hanya jika username admin tidak sama dengan username saat ini -->
+                      <a href="{% url 'hapus_admin' admin.id %}" class="mx-2 btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data {{admin.username}}?')">
+                        <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
+                      </a>
+                    {% endif %}
                   </td>
-                </tr>
-
-                <tr>
-                  <td>Caesar Vance</td>
-                  <td>Pre-Sales Support</td>
-                  <td>20-12-20</td>
-                  <td>
-                    <a class="btn btn-sm btn-warning mt-2">
-                      <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
-                    </a>
-                    <a class="btn btn-sm btn-danger mt-2">
-                      <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Doris Wilder</td>
-                  <td>Sales Assistant</td>
-                  <td>2-12-20</td>
-                  <td>
-                    <a class="btn btn-sm btn-warning mt-2">
-                      <span><i class="mdi mdi-pencil me-2"></i>Edit</span>
-                    </a>
-                    <a class="btn btn-sm btn-danger mt-2">
-                      <span><i class="mdi mdi-trash-can me-2"></i>Delete</span>
-                    </a>
-                  </td>
+                  {% endif %}
+                  {% endfor %}
                 </tr>
               </tbody>
+
               <tfoot>
                 <tr>
                   <th>Username</th>
                   <th>Email</th>
                   <th>Tanggal</th>
+                  {% if request.user.is_superuser %}
                   <th>Aksi</th>
+                  {% endif %}
                 </tr>
               </tfoot>
             </table>
