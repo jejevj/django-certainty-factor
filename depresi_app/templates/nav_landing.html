@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Certainty Factor - Landing Page</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="dist/images/favicon.png" />
-
     {% load static %}
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'lp/dist/images/favicon.png' %}" />
+
     <!-- <link href="../package/assets/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" /> -->
     <!-- Custom CSS -->
     <!-- <link rel="stylesheet" href="dist/css/style.css"> -->
@@ -70,7 +70,10 @@
     <!--End of main wrapper-->
 
     <!--Scripts-->
-    <script src="{% static 'lp/dist/libs/jquery/dist/jquery.min.js'%}"></script>
-    <script src="{% static 'lp/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'lp/libs/dist/jquery.min.js'%}"></script>
+    <script src="{% static 'lp/libs/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    
+    
   </body>
 </html>
+ 

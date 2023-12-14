@@ -24,4 +24,7 @@ urlpatterns = [
     path("tambah_admin/", tambah_admin, name="tambah_admin"),
     path("edit_admin/<int:admin_id>/", edit_admin, name="edit_admin"),
     path("hapus_admin/<int:admin_id>/", hapus_admin, name="hapus_admin"),
+    # PasienAction
+    path("pasien-list/", userPasien, name="listpasien"),
+    path("diagnosa/", handle_diagnosa, name="handle_diagnosa"),
 ]

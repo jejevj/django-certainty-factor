@@ -13,6 +13,20 @@ class Gejala(models.Model):
         return self.kode_gejala
 
 
+# Kelas Untuk User
+class UserPasien(models.Model):
+    nama = models.CharField(max_length=100)
+    jurusan = models.CharField(max_length=100)
+    kode_gejala = models.CharField(max_length=3)
+    p1 = models.CharField(max_length=50)
+    p2 = models.CharField(max_length=50)
+    p3 = models.CharField(max_length=50)
+    created_at = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.nama
+
+
 # Kelas Untuk Keterangan
 class Keterangan(models.Model):
     kode_keterangan = models.BigAutoField(

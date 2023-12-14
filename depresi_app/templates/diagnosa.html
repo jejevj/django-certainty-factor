@@ -1,0 +1,60 @@
+{% extends "nav_landing.html" %} {% load static %} {% block content %}
+
+<div class="page-wrapper">
+  <div class="container mt-5">
+    <div class="text-center mb-3">
+      <h2>Diagnosa Depresi</h2>
+      <p>Silahkan isi sesuai dengan keadaan dan kondisi kamu</p>
+    </div>
+    <form method="post" action="{% url 'handle_diagnosa' %}" id="diagnosaForm" class="row">
+      {% csrf_token %}
+      <div class="col-md-12">
+        <div class="gejala-container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="" class="form-label">Nama</label>
+                <input type="text" class="form-control" name="nama" id="nama" aria-describedby="helpId" placeholder="" required />
+                <small id="helpId" class="form-text text-muted">Masukkan Nama Kamu</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="" class="form-label">Jurusan</label>
+                <input type="text" class="form-control" name="jurusan" id="jurusan" aria-describedby="helpId" placeholder="" required />
+                <small id="helpId" class="form-text text-muted">Masukkan jurusan Kamu</small>
+              </div>
+            </div>
+            {% for gejala in gejala_list %}
+            <div class="col-md-6 mb-2">
+              <div class="gejala" data-gejala-id="{{ gejala.id }}">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">{{ gejala.keterangan_gejala }}</h4>
+                    {% for keterangan in keterangan_list %}
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="gejala_{{ gejala.kode_gejala }}" value="{{ keterangan.kode_keterangan }}" />
+                      <label class="form-check-label">{{ keterangan.keterangan }}</label>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <!-- Tambahkan konten di sini jika diperlukan -->
+      </div>
+      <div class="col-md-12">
+        <div class="mt-2 d-flex flex-wrap gap-2 gap-xl-4 justify-content-center justify-content-lg-start">
+          <button type="submit" class="text-nowrap btn btn-lg btn-info mb-2">Mulai Diagnosa</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!--End of page-wrapper-->
+{% endblock content %}

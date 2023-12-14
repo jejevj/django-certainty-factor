@@ -268,3 +268,50 @@ def hapus_admin(request, admin_id):
     admin = get_object_or_404(User, id=admin_id)
     admin.delete()
     return redirect("listadmin")
+
+
+# USER
+# Disini untuk fungsi user
+def userPasien(request):
+    user = UserPasien.objects.all()
+    return render(request, "pasien.html", {"user": request.user, "listPasien": user})
+
+
+from django.shortcuts import render, redirect
+from .models import UserPasien, Gejala, Keterangan
+
+
+def handle_diagnosa(request):
+    if request.method == "POST":
+        nama = request.POST.get("nama")
+        jurusan = request.POST.get("jurusan")
+
+        # Membuat objek UserPasien
+        user_pasien = UserPasien.objects.create(nama=nama, jurusan=jurusan)
+
+        # Mengambil data gejala dan bobot dari formulir
+        for gejala in Gejala.objects.all():
+            kode_gejala = gejala.kode_gejala
+            bobot = request.POST.get(f"gejala_{kode_gejala}")
+
+            # Menyimpan data ke model UserPasien
+            setattr(user_pasien, f"p1_{kode_gejala}", bobot)
+            setattr(user_pasien, f"p2_{kode_gejala}", bobot)
+            setattr(user_pasien, f"p3_{kode_gejala}", bobot)
+
+        # Menyimpan data ke model UserPasien
+        user_pasien.save()
+
+        return redirect(
+            "home"
+        )  # Ganti 'hasil_diagnosa' dengan nama view hasil diagnosa
+
+    # Jika bukan POST, tampilkan formulir
+    return render(
+        request,
+        "diagnosa.html",
+        {
+            "gejala_list": Gejala.objects.all(),
+            "keterangan_list": Keterangan.objects.all(),
+        },
+    )
