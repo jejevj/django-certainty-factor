@@ -17,10 +17,11 @@ class Gejala(models.Model):
 class UserPasien(models.Model):
     nama = models.CharField(max_length=100)
     jurusan = models.CharField(max_length=100)
-    kode_gejala = models.CharField(max_length=3)
-    p1 = models.CharField(max_length=50)
-    p2 = models.CharField(max_length=50)
-    p3 = models.CharField(max_length=50)
+    kode_gejala = models.CharField(max_length=100, default="")
+    p1 = models.CharField(max_length=100,default="")
+    p2 = models.CharField(max_length=100,default="")
+    p3 = models.CharField(max_length=100,default="")
+    cf = models.CharField(max_length=100,default="")
     created_at = models.DateField(auto_now=True)
 
     def __str__(self):

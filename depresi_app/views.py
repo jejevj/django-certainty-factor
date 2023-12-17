@@ -282,36 +282,35 @@ from .models import UserPasien, Gejala, Keterangan
 
 
 def handle_diagnosa(request):
-    if request.method == "POST":
-        nama = request.POST.get("nama")
-        jurusan = request.POST.get("jurusan")
+    if request.method == 'POST':
+        nama = request.POST.get('nama')
+        jurusan = request.POST.get('jurusan')
+        listGejala = []
+        listP1 = []
+        listP2 = []
+        listP3 = []
+        listCF = []
+        # Lakukan penyimpanan data UserPasien di database
 
-        # Membuat objek UserPasien
-        user_pasien = UserPasien.objects.create(nama=nama, jurusan=jurusan)
-
-        # Mengambil data gejala dan bobot dari formulir
         for gejala in Gejala.objects.all():
-            kode_gejala = gejala.kode_gejala
-            bobot = request.POST.get(f"gejala_{kode_gejala}")
+            p1 = gejala.p1
+            p2 = gejala.p2
+            p3 = gejala.p3
+            gejala_key = f'gejala_{gejala.kode_gejala}'
+            keterangan_value = request.POST.get(gejala_key)
+            listGejala.append(gejala.kode_gejala)
+            listP1.append(p1)
+            listP2.append(p2)
+            listP3.append(p3)
+            listCF.append(keterangan_value)
+            print(f"p1: {p1},p2: {p2},p3: {p3}, Key: {gejala_key}, Keterangan Value: {keterangan_value}")
+            
+            # Lakukan penyimpanan nilai formulir di database, misalnya menggunakan model lain
+            # Pastikan untuk mengonversi nilai ke tipe data yang sesuai, jika diperlukan
+        print(str(listCF))
+        user_pasien = UserPasien.objects.create(nama=nama, jurusan=jurusan,kode_gejala=str(listGejala),p1=str(listP1),p2=str(listP2),p3=str(listP3),cf=str(listCF))
+        # Lakukan apa yang diperlukan setelah menyimpan data, misalnya redirect ke halaman lain
+        return redirect('home')
 
-            # Menyimpan data ke model UserPasien
-            setattr(user_pasien, f"p1_{kode_gejala}", bobot)
-            setattr(user_pasien, f"p2_{kode_gejala}", bobot)
-            setattr(user_pasien, f"p3_{kode_gejala}", bobot)
-
-        # Menyimpan data ke model UserPasien
-        user_pasien.save()
-
-        return redirect(
-            "home"
-        )  # Ganti 'hasil_diagnosa' dengan nama view hasil diagnosa
-
-    # Jika bukan POST, tampilkan formulir
-    return render(
-        request,
-        "diagnosa.html",
-        {
-            "gejala_list": Gejala.objects.all(),
-            "keterangan_list": Keterangan.objects.all(),
-        },
-    )
+    # Logika jika metode bukan POST, misalnya menampilkan formulir lagi
+    return render(request, 'diagnosa.html', {'gejala_list': Gejala.objects.all(), 'keterangan_list': Keterangan.objects.all()})
