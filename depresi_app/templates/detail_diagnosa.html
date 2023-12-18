@@ -1,0 +1,41 @@
+{% extends "nav_landing.html" %} {% load static %} {% block content %}
+
+<div class="page-wrapper">
+  <div class="container mt-5">
+    <div class="text-center mb-3">
+      <h2>Hasil Diagnosa Depresi</h2>
+      <p>Berikut adalah hasil diagnosa kamu!</p>
+    </div>
+    {% if per3 > 70 %}
+    <div class="card">
+        <img class="card-img-top" src="https://i.ibb.co/0JSfQyW/Post-traumatic-stress-disorder-amico.png" alt="Title" />
+        <div class="card-body">
+            <h4 class="card-title">Depresi Berat</h4>
+            <p class="card-text">Solusi Belum Diisi</p>
+        </div>
+    </div>
+    
+    {% elif per2 > 70 %}
+    
+    <div class="card">
+        <img class="card-img-top" src="https://i.ibb.co/BtbCJ9T/Depression-bro.png" alt="Title" />
+        <div class="card-body">
+            <h4 class="card-title">Depresi Sedang</h4>
+            <p class="card-text">Solusi Belum Diisi</p>
+        </div>
+    </div>
+    {% elif per1 > 70 %}
+    <div class="card">
+        <img class="card-img-top" src="https://i.ibb.co/8Bg11tL/Feeling-Blue-pana.png"  alt="Title" />
+        <div class="card-body">
+            <h4 class="card-title">Depresi Ringan</h4>
+            <p class="card-text">Solusi Belum Diisi</p>
+        </div>
+    </div>
+    {% endif %}
+    
+  </div>
+</div>
+
+<!--End of page-wrapper-->
+{% endblock content %}

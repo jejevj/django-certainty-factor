@@ -15,6 +15,7 @@ class Gejala(models.Model):
 
 # Kelas Untuk User
 class UserPasien(models.Model):
+    kode_pasien = models.CharField(max_length=10,default="")
     nama = models.CharField(max_length=100)
     jurusan = models.CharField(max_length=100)
     kode_gejala = models.CharField(max_length=100, default="")
@@ -23,9 +24,10 @@ class UserPasien(models.Model):
     p3 = models.CharField(max_length=100,default="")
     cf = models.CharField(max_length=100,default="")
     created_at = models.DateField(auto_now=True)
-
+    
     def __str__(self):
-        return self.nama
+        return self.kode_pasien
+
 
 
 # Kelas Untuk Keterangan

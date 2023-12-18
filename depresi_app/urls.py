@@ -26,5 +26,6 @@ urlpatterns = [
     path("hapus_admin/<int:admin_id>/", hapus_admin, name="hapus_admin"),
     # PasienAction
     path("pasien-list/", userPasien, name="listpasien"),
-    path("diagnosa/", handle_diagnosa, name="handle_diagnosa"),
+    path("diagnosa/", handle_diagnosa, name="handle_diagnosa"), 
+    path('detail_diagnosa/<str:kode_pasien>/', detail_diagnosa, name='detail_diagnosa'),
 ]

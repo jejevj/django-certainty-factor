@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.urls import reverse
 from .models import *
+from .example_cf import *
+import ast
 
 
 def homescreen(request):
@@ -284,14 +287,15 @@ from .models import UserPasien, Gejala, Keterangan
 def handle_diagnosa(request):
     if request.method == 'POST':
         nama = request.POST.get('nama')
+        kode_pasien = request.POST.get('kode_pasien')
         jurusan = request.POST.get('jurusan')
         listGejala = []
         listP1 = []
         listP2 = []
         listP3 = []
         listCF = []
-        # Lakukan penyimpanan data UserPasien di database
 
+        # Lakukan penyimpanan data UserPasien di database
         for gejala in Gejala.objects.all():
             p1 = gejala.p1
             p2 = gejala.p2
@@ -303,14 +307,50 @@ def handle_diagnosa(request):
             listP2.append(p2)
             listP3.append(p3)
             listCF.append(keterangan_value)
-            print(f"p1: {p1},p2: {p2},p3: {p3}, Key: {gejala_key}, Keterangan Value: {keterangan_value}")
-            
-            # Lakukan penyimpanan nilai formulir di database, misalnya menggunakan model lain
-            # Pastikan untuk mengonversi nilai ke tipe data yang sesuai, jika diperlukan
-        print(str(listCF))
-        user_pasien = UserPasien.objects.create(nama=nama, jurusan=jurusan,kode_gejala=str(listGejala),p1=str(listP1),p2=str(listP2),p3=str(listP3),cf=str(listCF))
-        # Lakukan apa yang diperlukan setelah menyimpan data, misalnya redirect ke halaman lain
-        return redirect('home')
+
+        user_pasien = UserPasien.objects.create(
+            kode_pasien=kode_pasien,
+            nama=nama,
+            jurusan=jurusan,
+            kode_gejala=str(listGejala),
+            p1=str(listP1),
+            p2=str(listP2),
+            p3=str(listP3),
+            cf=str(listCF)
+        )
+
+        # Menggunakan reverse untuk mendapatkan URL dengan nama 'detail_diagnosa' dan parameter 'kode_pasien'
+        detail_diagnosa_url = reverse('detail_diagnosa', kwargs={'kode_pasien': kode_pasien})
+
+        # Redirect ke halaman detail diagnosa
+        return redirect(detail_diagnosa_url)
 
     # Logika jika metode bukan POST, misalnya menampilkan formulir lagi
     return render(request, 'diagnosa.html', {'gejala_list': Gejala.objects.all(), 'keterangan_list': Keterangan.objects.all()})
+
+def detail_diagnosa(request, kode_pasien):
+    # Logika untuk menampilkan halaman detail diagnosa berdasarkan kode_pasien
+    user_pasien = UserPasien.objects.get(kode_pasien=kode_pasien)
+    a_list = ast.literal_eval(user_pasien.p1)
+    p1_list = [float(elem) for elem in a_list]
+    b_list = ast.literal_eval(user_pasien.p2)
+    p2_list = [float(elem) for elem in b_list]
+    c_list = ast.literal_eval(user_pasien.p3)
+    p3_list = [float(elem) for elem in c_list]
+    d_list = ast.literal_eval(user_pasien.cf)
+    cf_list = [float(elem) for elem in c_list]
+    
+    # Filter nilai 0
+    filtered_p1, filtered_cf1 = filter_nonzero_values(p1_list, cf_list)
+    print(filtered_cf1)
+    filtered_p2, filtered_cf2 = filter_nonzero_values(p2_list, cf_list)
+    filtered_p3, filtered_cf3 = filter_nonzero_values(p3_list, cf_list)
+
+    combined_cf1 = calculate_combined_cf(filtered_p1, filtered_cf1)
+    percentage_cf1 = combined_cf1 * 100
+    combined_cf2 = calculate_combined_cf(filtered_p2, filtered_cf2)
+    percentage_cf2 = combined_cf2 * 100
+    combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
+    percentage_cf3 = combined_cf3 * 100
+    
+    return render(request, 'detail_diagnosa.html', {'per3': percentage_cf3,'per2': percentage_cf2,'per1': percentage_cf1})
