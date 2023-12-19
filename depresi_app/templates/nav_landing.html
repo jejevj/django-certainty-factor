@@ -33,10 +33,10 @@
               <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto stylish-nav">
                   <li class="nav-item">
-                    <a class="nav-link scroll-link" href="#apps">Home</a>
+                    <a class="nav-link scroll-link" href="{% url "home" %}">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#" target="_blank">Tentang Pakar</a>
+                    <a class="nav-link" href="{% url "home" %}">Tentang Pakar</a>
                   </li>
                   <li class="nav-item ms-3 mt-2 mt-md-0">
                     {% if user.is_authenticated %}

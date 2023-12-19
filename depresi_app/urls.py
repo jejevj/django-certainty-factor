@@ -23,9 +23,10 @@ urlpatterns = [
     path("admin-list/", daftarAdmin, name="listadmin"),
     path("tambah_admin/", tambah_admin, name="tambah_admin"),
     path("edit_admin/<int:admin_id>/", edit_admin, name="edit_admin"),
-    path("hapus_admin/<int:admin_id>/", hapus_admin, name="hapus_admin"),
+    path("hapus_pasien/<int:admin_id>/", hapus_admin, name="hapus_admin"),
     # PasienAction
     path("pasien-list/", userPasien, name="listpasien"),
+    path("pasien-list/<str:kode_pasien>", hapus_pasien, name="hapus_pasien"),
     path("diagnosa/", handle_diagnosa, name="handle_diagnosa"), 
     path('detail_diagnosa/<str:kode_pasien>/', detail_diagnosa, name='detail_diagnosa'),
 ]

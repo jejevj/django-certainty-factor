@@ -9,6 +9,7 @@ import ast
 
 
 def homescreen(request):
+    
     return render(request, "home.html", {"user": request.user})
 
 
@@ -41,7 +42,56 @@ def custom_logout(request):
 
 # INI UNTUK DASHBOARD
 def dahsboard(request):
-    return render(request, "dashboard.html", {"user": request.user})
+    user_pasiens = UserPasien.objects.all()
+
+    # Assuming 'p1', 'p2', 'p3', and 'cf' are fields in the UserPasien model
+    per1_list = []
+    for user_pasien in user_pasiens:
+        a_list = ast.literal_eval(user_pasien.p1)
+        p1_list = [float(elem) for elem in a_list]
+        b_list = ast.literal_eval(user_pasien.p2)
+        p2_list = [float(elem) for elem in b_list]
+        c_list = ast.literal_eval(user_pasien.p3)
+        p3_list = [float(elem) for elem in c_list]
+        d_list = ast.literal_eval(user_pasien.cf)
+        cf_list = [float(elem) for elem in d_list]
+
+        # Filter nilai 0
+        filtered_p1, filtered_cf1 = filter_nonzero_values(p1_list, cf_list)
+        filtered_p2, filtered_cf2 = filter_nonzero_values(p2_list, cf_list)
+        filtered_p3, filtered_cf3 = filter_nonzero_values(p3_list, cf_list)
+
+        combined_cf1 = calculate_combined_cf(filtered_p1, filtered_cf1)
+        percentage_cf1 = combined_cf1 * 100
+        combined_cf2 = calculate_combined_cf(filtered_p2, filtered_cf2)
+        percentage_cf2 = combined_cf2 * 100
+        combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
+        percentage_cf3 = combined_cf3 * 100
+        if percentage_cf3 > 70 :
+            per1_list.append("Berat")
+        elif percentage_cf2 > 95 :
+            per1_list.append("Sedang")
+        elif percentage_cf1 > 70 :
+            per1_list.append("Ringan")
+    
+    usrAdmin = User.objects.all()
+    combined_list = zip(user_pasiens, per1_list)
+    
+    gejala_list = Gejala.objects.all()
+    jml_gejala = len(gejala_list)
+    jml_pasien = len(user_pasiens)
+    
+    
+    context = {
+        "user": request.user,
+        "listPasien": user_pasiens,
+        "per1": per1_list,
+        "combined_list":combined_list,
+        "listAdmin": usrAdmin,
+        "jmlGejala": jml_gejala,
+        "jmlPasien": jml_pasien,
+    }
+    return render(request, "dashboard.html",context)
 
 
 def userhHistory(request):
@@ -210,6 +260,7 @@ User Admin views ini untuk membuat views bagian Admin
 
 
 def daftarAdmin(request):
+    
     usrAdmin = User.objects.all()
     return render(request, "admin.html", {"user": request.user, "listAdmin": usrAdmin})
 
@@ -281,9 +332,6 @@ def userPasien(request):
 
     # Assuming 'p1', 'p2', 'p3', and 'cf' are fields in the UserPasien model
     per1_list = []
-    per2_list = []
-    per3_list = []
-
     for user_pasien in user_pasiens:
         a_list = ast.literal_eval(user_pasien.p1)
         p1_list = [float(elem) for elem in a_list]
@@ -305,21 +353,27 @@ def userPasien(request):
         percentage_cf2 = combined_cf2 * 100
         combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
         percentage_cf3 = combined_cf3 * 100
-
-        # Append the percentages to the lists
-        per1_list.append(percentage_cf1)
-        per2_list.append(percentage_cf2)
-        per3_list.append(percentage_cf3)
-
+        if percentage_cf3 > 70 :
+            per1_list.append("Berat")
+        elif percentage_cf2 > 95 :
+            per1_list.append("Sedang")
+        elif percentage_cf1 > 70 :
+            per1_list.append("Ringan")
+    
+    combined_list = zip(user_pasiens, per1_list)
     context = {
         "user": request.user,
         "listPasien": user_pasiens,
-        'per3': per3_list,
-        'per2': per2_list,
-        'per1': per1_list,
+        "per1": per1_list,
+        "combined_list":combined_list
     }
 
     return render(request, "pasien.html", context)
+
+def hapus_pasien(request, kode_pasien):
+    pasien = get_object_or_404(UserPasien, kode_pasien=kode_pasien)
+    pasien.delete()
+    return redirect("listpasien")
 
 
 from django.shortcuts import render, redirect

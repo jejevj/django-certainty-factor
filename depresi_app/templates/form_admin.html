@@ -8,7 +8,7 @@
 
     <div class="mb-3">
       <label for="username">Username:</label>
-      <input type="text" id="username" name="username" value="{{ admin.username }}" {% if is_edit %}readonly{% endif %} required />
+      <input type="text" id="username" name="username" value="{{ admin.username }}" {% if is_edit %}{% endif %} required />
     </div>
 
     <div class="mb-3">
