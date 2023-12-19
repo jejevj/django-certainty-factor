@@ -8,12 +8,12 @@
 
     <div class="mb-3">
       <label for="kode_gejala">Kode Gejala:</label>
-      <input type="text" id="kode_gejala" name="kode_gejala" value="{{ gejala.kode_gejala }}" {% if is_edit %}readonly{% endif %} required />
+      <input type="text" id="kode_gejala" name="kode_gejala" value="{{ gejala.kode_gejala }}" {% if is_edit %}{% endif %} required />
     </div>
 
     <div class="mb-3">
       <label for="keterangan_gejala">Keterangan Gejala:</label>
-      <textarea id="keterangan_gejala" name="keterangan_gejala" {% if is_edit %}readonly{% endif %} required>{{ gejala.keterangan_gejala }}</textarea>
+      <textarea id="keterangan_gejala" name="keterangan_gejala" {% if is_edit %}{% endif %} required>{{ gejala.keterangan_gejala }}</textarea>
     </div>
 
     <div class="mb-3">

@@ -45,6 +45,8 @@ def dahsboard(request):
 
 
 def userhHistory(request):
+      # Logika untuk menampilkan halaman detail diagnosa berdasarkan kode_pasien
+    
     return render(request, "userhistory.html", {"user": request.user})
 
 
@@ -274,10 +276,50 @@ def hapus_admin(request, admin_id):
 
 
 # USER
-# Disini untuk fungsi user
 def userPasien(request):
-    user = UserPasien.objects.all()
-    return render(request, "pasien.html", {"user": request.user, "listPasien": user})
+    user_pasiens = UserPasien.objects.all()
+
+    # Assuming 'p1', 'p2', 'p3', and 'cf' are fields in the UserPasien model
+    per1_list = []
+    per2_list = []
+    per3_list = []
+
+    for user_pasien in user_pasiens:
+        a_list = ast.literal_eval(user_pasien.p1)
+        p1_list = [float(elem) for elem in a_list]
+        b_list = ast.literal_eval(user_pasien.p2)
+        p2_list = [float(elem) for elem in b_list]
+        c_list = ast.literal_eval(user_pasien.p3)
+        p3_list = [float(elem) for elem in c_list]
+        d_list = ast.literal_eval(user_pasien.cf)
+        cf_list = [float(elem) for elem in d_list]
+
+        # Filter nilai 0
+        filtered_p1, filtered_cf1 = filter_nonzero_values(p1_list, cf_list)
+        filtered_p2, filtered_cf2 = filter_nonzero_values(p2_list, cf_list)
+        filtered_p3, filtered_cf3 = filter_nonzero_values(p3_list, cf_list)
+
+        combined_cf1 = calculate_combined_cf(filtered_p1, filtered_cf1)
+        percentage_cf1 = combined_cf1 * 100
+        combined_cf2 = calculate_combined_cf(filtered_p2, filtered_cf2)
+        percentage_cf2 = combined_cf2 * 100
+        combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
+        percentage_cf3 = combined_cf3 * 100
+
+        # Append the percentages to the lists
+        per1_list.append(percentage_cf1)
+        per2_list.append(percentage_cf2)
+        per3_list.append(percentage_cf3)
+
+    context = {
+        "user": request.user,
+        "listPasien": user_pasiens,
+        'per3': per3_list,
+        'per2': per2_list,
+        'per1': per1_list,
+    }
+
+    return render(request, "pasien.html", context)
 
 
 from django.shortcuts import render, redirect
@@ -338,19 +380,25 @@ def detail_diagnosa(request, kode_pasien):
     c_list = ast.literal_eval(user_pasien.p3)
     p3_list = [float(elem) for elem in c_list]
     d_list = ast.literal_eval(user_pasien.cf)
-    cf_list = [float(elem) for elem in c_list]
+    cf_list = [float(elem) for elem in d_list]
     
     # Filter nilai 0
     filtered_p1, filtered_cf1 = filter_nonzero_values(p1_list, cf_list)
-    print(filtered_cf1)
     filtered_p2, filtered_cf2 = filter_nonzero_values(p2_list, cf_list)
     filtered_p3, filtered_cf3 = filter_nonzero_values(p3_list, cf_list)
 
+    print(filtered_cf1)
     combined_cf1 = calculate_combined_cf(filtered_p1, filtered_cf1)
     percentage_cf1 = combined_cf1 * 100
     combined_cf2 = calculate_combined_cf(filtered_p2, filtered_cf2)
     percentage_cf2 = combined_cf2 * 100
     combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
     percentage_cf3 = combined_cf3 * 100
+    if percentage_cf3 > 70 :
+        print("Berat")
+    elif percentage_cf2 > 95 :
+        print("Sedang")
+    elif percentage_cf1 > 70 :
+        print("Ringan")
     
-    return render(request, 'detail_diagnosa.html', {'per3': percentage_cf3,'per2': percentage_cf2,'per1': percentage_cf1})
+    return render(request, 'detail_diagnosa.html', {'per3': percentage_cf3,'per2': percentage_cf2,'per1': percentage_cf1,'user':user_pasien})

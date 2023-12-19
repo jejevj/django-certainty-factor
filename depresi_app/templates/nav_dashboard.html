@@ -58,7 +58,7 @@
             <!-- ============================================================== -->
             <!-- Logo -->
             <!-- ============================================================== -->
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="{% url 'dashboard' %}">
               <!-- Logo icon -->
               <b class="logo-icon">
                 CF
@@ -184,15 +184,15 @@
                 </a>
               </li>
               <li class="sidebar-item">
-                <a class="sidebar-link  waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                  <i class="mdi mdi-account-heart"></i>
-                  <span class="hide-menu">Diagnosa </span> 
-                </a>
-              </li>
-              <li class="sidebar-item">
                 <a class="sidebar-link  waves-effect waves-dark" href="{% url "solusi" %}" aria-expanded="false">
                   <i class="mdi mdi-account-voice"></i>
                   <span class="hide-menu">Solusi </span>
+                </a>
+              </li>
+              <li class="sidebar-item">
+                <a class="sidebar-link  waves-effect waves-dark" href="{% url "home" %}" aria-expanded="false">
+                  <i class="mdi mdi-home"></i>
+                  <span class="hide-menu">Home Page </span>
                 </a>
               </li>
             </ul>

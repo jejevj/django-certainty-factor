@@ -1,60 +1,73 @@
-{% extends "nav_dashboard.html" %} {% load static %} {% block cssblock %}
+{% extends "nav_dashboard.html" %} 
+{% load static %} 
 
-<!-- This page plugin CSS -->
-<link rel="stylesheet" href="{% static 'admin/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css' %}" />
-{% endblock cssblock %} {% block content %}
+{% block cssblock %}
+    <!-- This page plugin CSS -->
+    <link rel="stylesheet" href="{% static 'admin/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css' %}" />
+{% endblock cssblock %} 
 
+{% block content %}
 <div class="container-fluid">
-  <!-- basic table -->
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="border-bottom title-part-padding">
-          <h4 class="card-title mb-0">Daftar Pasien</h4>
+    <!-- basic table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="border-bottom title-part-padding">
+                    <h4 class="card-title mb-0">Daftar Pasien</h4>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-3"></h6>
+                    <div class="table-responsive">
+                        <table id="zero_config" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Jurusan</th>
+                                    <th>Tingkat Depresi</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pasien in listPasien %}
+                                    <tr>
+                                        <td>{{ pasien.nama }}</td>
+                                        <td>{{ pasien.jurusan }}</td>
+                                        <td>
+                                            {% with index=forloop.counter0 %}
+                                                {% if per3|length > index and per3.0 > 70 %}
+                                                    Berat
+                                                {% elif per2|length > index and per2.0 > 70 %}
+                                                    Sedang
+                                                {% elif per1|length > index and per1.0 > 70 %}
+                                                    Ringan
+                                                {% else %}
+                                                    Tidak ada kategori
+                                                {% endif %}
+                                            {% endwith %}
+                                        </td>
+                                        <td>{{ pasien.created_at }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Jurusan</th>
+                                    <th>Tingkat Depresi</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-          <h6 class="card-subtitle mb-3"></h6>
-          <div class="table-responsive">
-            <table id="zero_config" class="table table-striped table-bordered">
-              <thead>
-                <tr>
-                  <th>Nama</th>
-                  <th>Jurusan</th>
-                  <th>Tingkat Depresi</th>
-                  <th>Tanggal</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for pasien in listPasien %}
-                <tr>
-                  <td>{{pasien.nama}}</td>
-                  <td>{{pasien.jurusan}}</td>
-                  <td>tingkat dep</td>
-                  <td>{{pasien.created_at}}</td>
-
-                  {% endfor %}
-                </tr>
-              </tbody>
-
-              <tfoot>
-                <tr>
-                  <th>Nama</th>
-                  <th>Jurusan</th>
-                  <th>Tingkat Depresi</th>
-                  <th>Tanggal</th>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
+{% endblock content %} 
 
-{% endblock content %} {% block jsblock %}
-
-<!--This page plugins -->
-<script src="{% static 'admin/dist/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'admin/dist/js/pages/datatable/datatable-basic.init.js' %}"></script>
+{% block jsblock %}
+    <!-- This page plugins -->
+    <script src="{% static 'admin/dist/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin/dist/js/pages/datatable/datatable-basic.init.js' %}"></script>
 {% endblock jsblock %}

@@ -8,7 +8,7 @@
 
     <div class="mb-3">
       <label for="keterangan">Keterangan Gejala:</label>
-      <textarea id="keterangan" name="keterangan" {% if is_edit %}readonly{% endif %} required>{{ keterangan.keterangan }}</textarea>
+      <textarea id="keterangan" name="keterangan" {% if is_edit %}{% endif %} required>{{ keterangan.keterangan }}</textarea>
     </div>
 
     <div class="mb-3">
