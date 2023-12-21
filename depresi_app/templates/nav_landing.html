@@ -22,7 +22,7 @@
           <div class="px-3">
             <nav class="navbar navbar-expand-md navbar-light ps-0">
               <!-- Logo will be here -->
-              <a class="navbar-brand" href="#"> Certainty Factor </a>
+              <a class="navbar-brand" href="{% url "home" %}"> Certainty Factor </a>
 
               <!--Toggle button-->
               <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
                     <a class="nav-link scroll-link" href="{% url "home" %}">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url "home" %}">Tentang Pakar</a>
+                    <a class="nav-link" href="{% url "tentangpakar" %}">Tentang Pakar</a>
                   </li>
                   <li class="nav-item ms-3 mt-2 mt-md-0">
                     {% if user.is_authenticated %}
