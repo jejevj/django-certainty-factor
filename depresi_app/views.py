@@ -9,7 +9,6 @@ import ast
 
 
 def homescreen(request):
-    
     return render(request, "home.html", {"user": request.user})
 
 
@@ -67,36 +66,35 @@ def dahsboard(request):
         percentage_cf2 = combined_cf2 * 100
         combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
         percentage_cf3 = combined_cf3 * 100
-        if percentage_cf3 > 70 :
+        if percentage_cf3 > 70:
             per1_list.append("Berat")
-        elif percentage_cf2 > 95 :
+        elif percentage_cf2 > 95:
             per1_list.append("Sedang")
-        elif percentage_cf1 > 70 :
+        elif percentage_cf1 > 70:
             per1_list.append("Ringan")
-    
+
     usrAdmin = User.objects.all()
     combined_list = zip(user_pasiens, per1_list)
-    
+
     gejala_list = Gejala.objects.all()
     jml_gejala = len(gejala_list)
     jml_pasien = len(user_pasiens)
-    
-    
+
     context = {
         "user": request.user,
         "listPasien": user_pasiens,
         "per1": per1_list,
-        "combined_list":combined_list,
+        "combined_list": combined_list,
         "listAdmin": usrAdmin,
         "jmlGejala": jml_gejala,
         "jmlPasien": jml_pasien,
     }
-    return render(request, "dashboard.html",context)
+    return render(request, "dashboard.html", context)
 
 
 def userhHistory(request):
-      # Logika untuk menampilkan halaman detail diagnosa berdasarkan kode_pasien
-    
+    # Logika untuk menampilkan halaman detail diagnosa berdasarkan kode_pasien
+
     return render(request, "userhistory.html", {"user": request.user})
 
 
@@ -260,7 +258,6 @@ User Admin views ini untuk membuat views bagian Admin
 
 
 def daftarAdmin(request):
-    
     usrAdmin = User.objects.all()
     return render(request, "admin.html", {"user": request.user, "listAdmin": usrAdmin})
 
@@ -353,22 +350,23 @@ def userPasien(request):
         percentage_cf2 = combined_cf2 * 100
         combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
         percentage_cf3 = combined_cf3 * 100
-        if percentage_cf3 > 70 :
+        if percentage_cf3 > 70:
             per1_list.append("Berat")
-        elif percentage_cf2 > 95 :
+        elif percentage_cf2 > 95:
             per1_list.append("Sedang")
-        elif percentage_cf1 > 70 :
+        elif percentage_cf1 > 70:
             per1_list.append("Ringan")
-    
+
     combined_list = zip(user_pasiens, per1_list)
     context = {
         "user": request.user,
         "listPasien": user_pasiens,
         "per1": per1_list,
-        "combined_list":combined_list
+        "combined_list": combined_list,
     }
 
     return render(request, "pasien.html", context)
+
 
 def hapus_pasien(request, kode_pasien):
     pasien = get_object_or_404(UserPasien, kode_pasien=kode_pasien)
@@ -381,10 +379,10 @@ from .models import UserPasien, Gejala, Keterangan
 
 
 def handle_diagnosa(request):
-    if request.method == 'POST':
-        nama = request.POST.get('nama')
-        kode_pasien = request.POST.get('kode_pasien')
-        jurusan = request.POST.get('jurusan')
+    if request.method == "POST":
+        nama = request.POST.get("nama")
+        kode_pasien = request.POST.get("kode_pasien")
+        jurusan = request.POST.get("jurusan")
         listGejala = []
         listP1 = []
         listP2 = []
@@ -396,7 +394,7 @@ def handle_diagnosa(request):
             p1 = gejala.p1
             p2 = gejala.p2
             p3 = gejala.p3
-            gejala_key = f'gejala_{gejala.kode_gejala}'
+            gejala_key = f"gejala_{gejala.kode_gejala}"
             keterangan_value = request.POST.get(gejala_key)
             listGejala.append(gejala.kode_gejala)
             listP1.append(p1)
@@ -412,17 +410,27 @@ def handle_diagnosa(request):
             p1=str(listP1),
             p2=str(listP2),
             p3=str(listP3),
-            cf=str(listCF)
+            cf=str(listCF),
         )
 
         # Menggunakan reverse untuk mendapatkan URL dengan nama 'detail_diagnosa' dan parameter 'kode_pasien'
-        detail_diagnosa_url = reverse('detail_diagnosa', kwargs={'kode_pasien': kode_pasien})
+        detail_diagnosa_url = reverse(
+            "detail_diagnosa", kwargs={"kode_pasien": kode_pasien}
+        )
 
         # Redirect ke halaman detail diagnosa
         return redirect(detail_diagnosa_url)
 
     # Logika jika metode bukan POST, misalnya menampilkan formulir lagi
-    return render(request, 'diagnosa.html', {'gejala_list': Gejala.objects.all(), 'keterangan_list': Keterangan.objects.all()})
+    return render(
+        request,
+        "diagnosa.html",
+        {
+            "gejala_list": Gejala.objects.all(),
+            "keterangan_list": Keterangan.objects.all(),
+        },
+    )
+
 
 def detail_diagnosa(request, kode_pasien):
     # Logika untuk menampilkan halaman detail diagnosa berdasarkan kode_pasien
@@ -435,7 +443,7 @@ def detail_diagnosa(request, kode_pasien):
     p3_list = [float(elem) for elem in c_list]
     d_list = ast.literal_eval(user_pasien.cf)
     cf_list = [float(elem) for elem in d_list]
-    
+
     # Filter nilai 0
     filtered_p1, filtered_cf1 = filter_nonzero_values(p1_list, cf_list)
     filtered_p2, filtered_cf2 = filter_nonzero_values(p2_list, cf_list)
@@ -448,11 +456,26 @@ def detail_diagnosa(request, kode_pasien):
     percentage_cf2 = combined_cf2 * 100
     combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
     percentage_cf3 = combined_cf3 * 100
-    if percentage_cf3 > 70 :
+    hasil = 0
+    if percentage_cf3 > 70:
         print("Berat")
-    elif percentage_cf2 > 95 :
+        hasil = percentage_cf3
+    elif percentage_cf2 > 95:
         print("Sedang")
-    elif percentage_cf1 > 70 :
+        hasil = percentage_cf2
+    elif percentage_cf1 > 70:
         print("Ringan")
-    
-    return render(request, 'detail_diagnosa.html', {'per3': percentage_cf3,'per2': percentage_cf2,'per1': percentage_cf1,'user':user_pasien})
+        hasil = percentage_cf1
+    print(hasil)
+
+    return render(
+        request,
+        "detail_diagnosa.html",
+        {
+            "per3": percentage_cf3,
+            "per2": percentage_cf2,
+            "per1": percentage_cf1,
+            "user": user_pasien,
+            "hasil": hasil,
+        },
+    )
