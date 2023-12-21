@@ -66,7 +66,7 @@ def dahsboard(request):
         percentage_cf2 = combined_cf2 * 100
         combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
         percentage_cf3 = combined_cf3 * 100
-        if percentage_cf3 > 70:
+        if percentage_cf3 > 98:
             per1_list.append("Berat")
         elif percentage_cf2 > 95:
             per1_list.append("Sedang")
@@ -350,7 +350,7 @@ def userPasien(request):
         percentage_cf2 = combined_cf2 * 100
         combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
         percentage_cf3 = combined_cf3 * 100
-        if percentage_cf3 > 70:
+        if percentage_cf3 > 98:
             per1_list.append("Berat")
         elif percentage_cf2 > 95:
             per1_list.append("Sedang")
@@ -457,16 +457,21 @@ def detail_diagnosa(request, kode_pasien):
     combined_cf3 = calculate_combined_cf(filtered_p3, filtered_cf3)
     percentage_cf3 = combined_cf3 * 100
     hasil = 0
-    if percentage_cf3 > 70:
-        print("Berat")
+    if percentage_cf3 > 98:
+        print("Berat")  
         hasil = percentage_cf3
     elif percentage_cf2 > 95:
         print("Sedang")
         hasil = percentage_cf2
     elif percentage_cf1 > 70:
+        hasil = percentage_cf1
         print("Ringan")
+        
+    print(percentage_cf3)
+    print(percentage_cf2)
+    print(percentage_cf1)
     
-    return render(request, 'detail_diagnosa.html', {'per3': percentage_cf3,'per2': percentage_cf2,'per1': percentage_cf1,'user':user_pasien})
+    return render(request, 'detail_diagnosa.html', {'per3': percentage_cf3,'per2': percentage_cf2,'per1': percentage_cf1,'user':user_pasien,'hasil':hasil})
 
 def tentang_pakar(request):
     return render(request,"tentangpakar.html")
