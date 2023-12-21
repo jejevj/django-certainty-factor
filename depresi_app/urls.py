@@ -29,4 +29,5 @@ urlpatterns = [
     path("pasien-list/<str:kode_pasien>", hapus_pasien, name="hapus_pasien"),
     path("diagnosa/", handle_diagnosa, name="handle_diagnosa"), 
     path('detail_diagnosa/<str:kode_pasien>/', detail_diagnosa, name='detail_diagnosa'),
+    path('tentang-pakar',tentang_pakar,name="tentangpakar")
 ]

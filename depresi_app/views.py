@@ -456,3 +456,6 @@ def detail_diagnosa(request, kode_pasien):
         print("Ringan")
     
     return render(request, 'detail_diagnosa.html', {'per3': percentage_cf3,'per2': percentage_cf2,'per1': percentage_cf1,'user':user_pasien})
+
+def tentang_pakar(request):
+    return render(request,"tentangpakar.html")
